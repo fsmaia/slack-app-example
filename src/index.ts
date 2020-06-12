@@ -123,7 +123,9 @@ app.post(
 app.post(
   '/commands',
   async (
-    { body: { command, response_url, text } }: express.Request,
+    {
+      body: { channel_id, command, response_url, text, user_name },
+    }: express.Request,
     res: express.Response
   ) => {
     try {
@@ -132,8 +134,13 @@ app.post(
       const webhook = new IncomingWebhook(response_url as string);
 
       if (command === Command.ANNOUNCE) {
+        await web.chat.postMessage({
+          text: `:loudspeaker: BREAKING NEWS! ${user_name} has something import to say! :loudspeaker:\n${text}`,
+          channel: channel_id,
+        });
+
         await webhook.send({
-          text: `:loudspeaker: BREAKING NEWS! :loudspeaker:\n${text}`,
+          text: 'I have spread the word for you!',
         });
       }
 
