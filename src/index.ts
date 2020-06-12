@@ -96,18 +96,22 @@ slackInteractions.shortcut(
 slackInteractions.action({ type: 'button' }, (payload, respond) => {
   console.log('button clicked', payload);
 
-  if (payload.callback_id === 'yes') {
+  const value = payload.actions[0].value;
+
+  if (value === 'yes') {
     return respond({
       text: 'Embrace yourselves. The endless thread is coming!',
       response_type: 'ephemeral',
     });
   }
 
-  return respond({
-    text:
-      'No discussions in the way. Every little thing is gonna be alright...',
-    response_type: 'ephemeral ',
-  });
+  if (value === 'no') {
+    return respond({
+      text:
+        'No discussions in the way. Every little thing is gonna be alright...',
+      response_type: 'ephemeral ',
+    });
+  }
 });
 
 app.use('/interactivity', slackInteractions.requestListener());
@@ -193,7 +197,7 @@ app.post(
                     text: ':thumbsup: Oh, yeah!!',
                     emoji: true,
                   },
-                  value: 'yes',
+                  value: 'agree',
                 },
                 {
                   type: 'button',
@@ -202,7 +206,7 @@ app.post(
                     text: ':thumbsdown: Oh, really??',
                     emoji: true,
                   },
-                  value: 'no',
+                  value: 'disagree',
                 },
               ],
             },
