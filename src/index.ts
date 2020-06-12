@@ -94,17 +94,18 @@ slackInteractions.shortcut(
 );
 
 slackInteractions.action({ type: 'button' }, (payload, respond) => {
-  if (payload.value === 'yes') {
-    respond({
+  if (payload.callback_id === 'yes') {
+    return respond({
       text: 'Embrace yourselves. The endless thread is coming!',
       response_type: 'ephemeral',
     });
-  } else {
-    respond({
-      text: 'Every little thing is gonna be alright...',
-      response_type: 'ephemeral ',
-    });
   }
+
+  return respond({
+    text:
+      'No discussions in the way. Every little thing is gonna be alright...',
+    response_type: 'ephemeral ',
+  });
 });
 
 app.use('/interactivity', slackInteractions.requestListener());
@@ -187,7 +188,7 @@ app.post(
                   type: 'button',
                   text: {
                     type: 'plain_text',
-                    text: ":thumbsup: That's it! I couldn't agree more!",
+                    text: ':thumbsup: Oh, yeah!!',
                     emoji: true,
                   },
                   value: 'yes',
@@ -196,7 +197,7 @@ app.post(
                   type: 'button',
                   text: {
                     type: 'plain_text',
-                    text: ':thumbsdown: Oh, really?.',
+                    text: ':thumbsdown: Oh, really??',
                     emoji: true,
                   },
                   value: 'no',
