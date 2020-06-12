@@ -94,6 +94,8 @@ slackInteractions.shortcut(
 );
 
 slackInteractions.action({ type: 'button' }, (payload, respond) => {
+  console.log('button clicked', payload);
+
   if (payload.callback_id === 'yes') {
     return respond({
       text: 'Embrace yourselves. The endless thread is coming!',
