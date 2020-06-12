@@ -161,9 +161,16 @@ app.post(
       if (command === Command.POLL) {
         await web.chat.postMessage({
           channel: channel_id,
-          text:
-            '*Time to express yourself by voting! Share your thoughts :tada:*',
+          text: '',
           blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text:
+                  '*Time to express yourself by voting! Share your thoughts :tada:*',
+              },
+            },
             { type: 'divider' },
             {
               type: 'section',
