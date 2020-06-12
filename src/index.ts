@@ -33,11 +33,10 @@ const web = new WebClient(botAccessToken);
 const slackInteractions = createMessageAdapter(signingSecret);
 
 const openStartDiscussionModal = async (
-  token: string,
   triggerId: string
 ): Promise<WebAPICallResult> => {
   return web.views.open({
-    token,
+    token: botAccessToken,
     trigger_id: triggerId,
     view: {
       type: 'modal',
@@ -90,7 +89,7 @@ slackInteractions.shortcut(
   (payload) => {
     console.log('start_discussion', payload);
 
-    return openStartDiscussionModal(botAccessToken, payload.trigger_id);
+    return openStartDiscussionModal(payload.trigger_id);
   }
 );
 
@@ -131,15 +130,7 @@ app.post(
   '/commands',
   async (
     {
-      body: {
-        access_token,
-        channel_id,
-        command,
-        response_url,
-        text,
-        trigger_id,
-        user_name,
-      },
+      body: { channel_id, command, response_url, text, trigger_id, user_name },
     }: express.Request,
     res: express.Response
   ) => {
@@ -158,7 +149,7 @@ app.post(
           text: 'I have spread the word for you!',
         });
       } else if (command === Command.START_DISCUSSION) {
-        await openStartDiscussionModal(access_token, trigger_id);
+        await openStartDiscussionModal(trigger_id);
       }
 
       res.status(200).send('Command received');
