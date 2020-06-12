@@ -16,11 +16,18 @@ dotenv.config();
 const port: string | number = process.env.PORT || 5000;
 
 const botAccessToken = process.env.BOT_ACCESS_TOKEN;
+const chanelWebhookUrl = process.env.CHANNEL_WEBHOOK_URL;
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const signingSecret = process.env.SIGNING_SECRET;
 
-if (!botAccessToken || !clientId || !clientSecret || !signingSecret) {
+if (
+  !botAccessToken ||
+  !chanelWebhookUrl ||
+  !clientId ||
+  !clientSecret ||
+  !signingSecret
+) {
   throw new Error(
     'Proper environment variables must be provided! Refer to the project README.'
   );
@@ -121,26 +128,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post(
   '/event-listener',
-  (
-    { body: { challenge, text, type, ...body } }: express.Request,
-    res: express.Response
-  ) => {
-    console.log(body);
+  ({ body: { challenge, event } }: express.Request, res: express.Response) => {
+    console.log('event captured', event);
 
-    if (type === 'url_verification') {
+    if (event.type === 'url_verification') {
       res.status(200).send({ challenge });
     }
 
-    if (type === 'app_mention' && typeof text === 'string') {
+    if (event.type === 'app_mention') {
+      const webhook = new IncomingWebhook(chanelWebhookUrl);
+      const text: string = event.text;
+
       if (text.match('hey')) {
-        res.status(200).send('Ho!');
+        webhook.send({
+          text: 'Ho!',
+        });
+      } else if (text.match('ping')) {
+        webhook.send({
+          text: 'Pong!',
+        });
       }
 
-      if (text.match('ping')) {
-        res.status(200).send('Pong!');
-      }
-
-      res.status(200).send('What do you mean?');
+      res.send(200);
     }
   }
 );

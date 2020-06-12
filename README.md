@@ -20,12 +20,13 @@ npm start
 
 The following environment variables must be provided:
 
-| Variable           | Description                             |
-| ------------------ | --------------------------------------- |
-| `BOT_ACCESS_TOKEN` | Application bot user OAuth access token |
-| `CLIENT_ID`        | Application client id                   |
-| `CLIENT_SECRET`    | Application client secret               |
-| `SIGNING_SECRET`   | Application signing secret              |
+| Variable              | Description                             |
+| --------------------- | --------------------------------------- |
+| `BOT_ACCESS_TOKEN`    | Application bot user OAuth access token |
+| `CHANNEL_WEBHOOK_URL` | Application main channel webhook URL    |
+| `CLIENT_ID`           | Application client id                   |
+| `CLIENT_SECRET`       | Application client secret               |
+| `SIGNING_SECRET`      | Application signing secret              |
 
 Reference: https://api.slack.com/docs/oauth
 
