@@ -129,27 +129,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post(
   '/event-listener',
   ({ body: { challenge, event } }: express.Request, res: express.Response) => {
-    console.log('event captured', event);
+    console.log('Event captured', event);
 
-    if (event.type === 'url_verification') {
-      res.status(200).send({ challenge });
-    }
-
-    if (event.type === 'app_mention') {
-      const webhook = new IncomingWebhook(chanelWebhookUrl);
-      const text: string = event.text;
-
-      if (text.match('hey')) {
-        webhook.send({
-          text: 'Ho!',
-        });
-      } else if (text.match('ping')) {
-        webhook.send({
-          text: 'Pong!',
-        });
+    try {
+      if (event.type === 'url_verification') {
+        res.status(200).send({ challenge });
       }
 
-      res.send(200);
+      if (event.type === 'app_mention') {
+        const webhook = new IncomingWebhook(chanelWebhookUrl);
+        const text: string = event.text;
+
+        if (text.match('hey')) {
+          webhook.send({
+            text: 'Ho!',
+          });
+        } else if (text.match('ping')) {
+          webhook.send({
+            text: 'Pong!',
+          });
+        }
+
+        res.send(200);
+      }
+    } catch (e) {
+      console.log('Event subscription failed:', e);
     }
   }
 );
