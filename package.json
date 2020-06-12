@@ -29,7 +29,6 @@
     "husky": "^4.2.5",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
-    "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   },
   "dependencies": {
@@ -38,6 +37,7 @@
     "@slack/interactive-messages": "^1.6.0",
     "@slack/web-api": "^5.10.0",
     "@slack/webhook": "^5.0.3",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "ts-node": "^8.10.2"
   }
 }
