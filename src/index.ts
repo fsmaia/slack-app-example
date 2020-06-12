@@ -158,6 +158,10 @@ app.post(
   }
 );
 
+app.get('/health', (req: express.Request, res: express.Response) => {
+  res.status(200).send('Staying alive');
+});
+
 app.post(
   '/commands',
   async (
