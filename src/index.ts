@@ -141,30 +141,29 @@ app.post(
 
       if (command === Command.ANNOUNCE) {
         await web.chat.postMessage({
-          text: `:loudspeaker: *BREAKING NEWS! @${user_name} has something important to say!* :loudspeaker:\n${text}`,
           channel: channel_id,
+          text: `:loudspeaker: *BREAKING NEWS! @${user_name} has something important to say!* :loudspeaker:\n${text}`,
         });
 
         await webhook.send({
           text: 'I have spread the word for you!',
         });
 
-        res.send(200);
-      } else if (command === Command.START_DISCUSSION) {
+        return res.send(200);
+      }
+
+      if (command === Command.START_DISCUSSION) {
         await openStartDiscussionModal(trigger_id);
 
-        res.status(200).send('Discussion started');
-      } else if (command === Command.POLL) {
-        res.status(200).send({
+        return res.status(200).send('Discussion started');
+      }
+
+      if (command === Command.POLL) {
+        await web.chat.postMessage({
+          channel: channel_id,
+          text:
+            '*Time to express yourself by voting! Share your thoughts :tada:*',
           blocks: [
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text:
-                  '*Time to express yourself by voting! Share your thoughts :tada:*',
-              },
-            },
             { type: 'divider' },
             {
               type: 'section',
@@ -199,6 +198,8 @@ app.post(
             },
           ],
         });
+
+        return res.status(200).send('May the odds ever be in your favor!');
       }
     } catch (e) {
       console.log('Command failed: ', e);
