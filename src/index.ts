@@ -1,7 +1,14 @@
 import { createMessageAdapter } from '@slack/interactive-messages';
+import { IncomingWebhook } from '@slack/webhook';
 import { WebClient } from '@slack/web-api';
 import express = require('express');
 import dotenv = require('dotenv');
+
+enum Command {
+  ANNOUNCE = 'announce',
+  POLL = 'poll',
+  START_DISCUSSION = 'start_discussion',
+}
 
 dotenv.config();
 
@@ -113,10 +120,20 @@ app.post(
 
 app.post(
   '/commands',
-  ({ body: { command } }: express.Request, res: express.Response) => {
-    console.log('command', command);
+  async (
+    { query: { command, response_url, text } }: express.Request,
+    res: express.Response
+  ) => {
+    console.log('Command received: ', command);
+    const webhook = new IncomingWebhook(response_url as string);
 
-    res.status(200).send('Thanks!');
+    if (command === Command.ANNOUNCE) {
+      await webhook.send({
+        text: `:loudspeaker: BREAKING NEWS! :loudspeaker:\n${text}`,
+      });
+    }
+
+    res.status(200).send('Command received');
   }
 );
 

@@ -47,9 +47,9 @@ In this example the following commands will be handled:
 
 | Command               | Description             | Server endpoint            |
 | --------------------- | ----------------------- | -------------------------- |
-| `/start_discussion`   | Starts a discussion     | /commands/start_discussion |
 | `/announce <message>` | Creates an announcement | /commands/announce         |
 | `/poll <question>`    | Starts a poll           | /commands/poll             |
+| `/start_discussion`   | Starts a discussion     | /commands/start_discussion |
 
 Reference: https://api.slack.com/interactivity/slash-commands
 
