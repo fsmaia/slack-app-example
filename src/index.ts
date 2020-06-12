@@ -3,6 +3,7 @@ import { IncomingWebhook } from '@slack/webhook';
 import { WebClient } from '@slack/web-api';
 import express = require('express');
 import dotenv = require('dotenv');
+import bodyParser = require('body-parser');
 
 enum Command {
   ANNOUNCE = 'announce',
@@ -102,7 +103,8 @@ slackInteractions.action({ type: 'button' }, (payload, respond) => {
 
 app.use('/interactivity', slackInteractions.requestListener());
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post(
   '/event-listener',
@@ -121,23 +123,24 @@ app.post(
 app.post(
   '/commands',
   async (
-    { query: { command, response_url, text } }: express.Request,
+    { body: { command, response_url, text } }: express.Request,
     res: express.Response
   ) => {
-    console.log('Command received: ', command);
-    const webhook = new IncomingWebhook(response_url as string);
+    try {
+      console.log('Command received: ', command);
 
-    if (command === Command.ANNOUNCE) {
-      try {
+      const webhook = new IncomingWebhook(response_url as string);
+
+      if (command === Command.ANNOUNCE) {
         await webhook.send({
           text: `:loudspeaker: BREAKING NEWS! :loudspeaker:\n${text}`,
         });
-      } catch (e) {
-        console.log('Could not send announcement: ', e);
       }
-    }
 
-    res.status(200).send('Command received');
+      res.status(200).send('Command received');
+    } catch (e) {
+      console.log('Could not send announcement: ', e);
+    }
   }
 );
 
