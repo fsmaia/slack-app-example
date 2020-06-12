@@ -122,14 +122,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post(
   '/event-listener',
   (
-    { body: { challenge, payload } }: express.Request,
+    { body: { challenge, text, type } }: express.Request,
     res: express.Response
   ) => {
-    console.log('event listener', payload);
+    if (type === 'url_verification') {
+      res.status(200).send({ challenge });
+    }
 
-    res.status(200).send({
-      challenge,
-    });
+    if (type === 'app_mention' && typeof text === 'string') {
+      if (text.match('hey')) {
+        res.status(200).send('Ho!');
+      }
+
+      if (text.match('ping')) {
+        res.status(200).send('Pong!');
+      }
+
+      res.status(200).send('What do you mean?');
+    }
   }
 );
 
