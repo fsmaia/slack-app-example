@@ -148,13 +148,60 @@ app.post(
         await webhook.send({
           text: 'I have spread the word for you!',
         });
+
+        res.send(200);
       } else if (command === Command.START_DISCUSSION) {
         await openStartDiscussionModal(trigger_id);
-      }
 
-      res.status(200).send('Command received');
+        res.status(200).send('Discussion started');
+      } else if (command === Command.POLL) {
+        res.status(200).send({
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text:
+                  '*Time to express yourself by voting! Share your thoughts :tada:*',
+              },
+            },
+            { type: 'divider' },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text,
+              },
+            },
+            { type: 'divider' },
+            {
+              type: 'actions',
+              elements: [
+                {
+                  type: 'button',
+                  text: {
+                    type: 'plain_text',
+                    text: ":thumbsup: That's it! I couldn't agree more!",
+                    emoji: true,
+                  },
+                  value: 'yes',
+                },
+                {
+                  type: 'button',
+                  text: {
+                    type: 'plain_text',
+                    text: ':thumbsdown: Oh, really?.',
+                    emoji: true,
+                  },
+                  value: 'no',
+                },
+              ],
+            },
+          ],
+        });
+      }
     } catch (e) {
-      console.log('Could not send announcement: ', e);
+      console.log('Command failed: ', e);
     }
   }
 );
