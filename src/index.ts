@@ -6,9 +6,9 @@ import dotenv = require('dotenv');
 import bodyParser = require('body-parser');
 
 enum Command {
-  ANNOUNCE = 'announce',
-  POLL = 'poll',
-  START_DISCUSSION = 'start_discussion',
+  ANNOUNCE = '/announce',
+  POLL = '/poll',
+  START_DISCUSSION = '/start_discussion',
 }
 
 dotenv.config();
