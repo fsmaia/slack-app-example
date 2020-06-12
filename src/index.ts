@@ -122,9 +122,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post(
   '/event-listener',
   (
-    { body: { challenge, text, type } }: express.Request,
+    { body: { challenge, text, type, ...body } }: express.Request,
     res: express.Response
   ) => {
+    console.log(body);
+
     if (type === 'url_verification') {
       res.status(200).send({ challenge });
     }
