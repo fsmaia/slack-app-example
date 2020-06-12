@@ -128,9 +128,13 @@ app.post(
     const webhook = new IncomingWebhook(response_url as string);
 
     if (command === Command.ANNOUNCE) {
-      await webhook.send({
-        text: `:loudspeaker: BREAKING NEWS! :loudspeaker:\n${text}`,
-      });
+      try {
+        await webhook.send({
+          text: `:loudspeaker: BREAKING NEWS! :loudspeaker:\n${text}`,
+        });
+      } catch (e) {
+        console.log('Could not send announcement: ', e);
+      }
     }
 
     res.status(200).send('Command received');
