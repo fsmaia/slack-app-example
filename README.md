@@ -28,3 +28,21 @@ The following environment variables must be provided:
 | `SIGNING_SECRET`   | Application signing secret              |
 
 Reference: https://api.slack.com/docs/oauth
+
+## Features
+
+### Interactivity
+
+This server holds an interactive endpoint in `/interactivity`, which allows the application to have interactions with shortcuts, modals, or interactive components.
+
+Reference: https://api.slack.com/messaging/interactivity
+
+#### Useful links
+
+- Block kit builder: https://api.slack.com/tools/block-kit-builder
+
+#### Registered shortcuts
+
+| Name               | Description         | Callback ID      |
+| ------------------ | ------------------- | ---------------- |
+| Start a discussion | Starts a discussion | start_discussion |
