@@ -31,9 +31,19 @@ Reference: https://api.slack.com/docs/oauth
 
 ## Features
 
+### Event subscriptions
+
+This server holds an event subscription listener in `/event-listener`, which allows the application to listen to Slack configured events.
+
+In this example it will be mentions to the application bot.
+
+Reference: https://api.slack.com/events
+
 ### Interactivity
 
 This server holds an interactive endpoint in `/interactivity`, which allows the application to have interactions with shortcuts, modals, or interactive components.
+
+In this example the `Starts a discussion` shortcut will be handled.
 
 Reference: https://api.slack.com/messaging/interactivity
 

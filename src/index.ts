@@ -97,6 +97,20 @@ app.use('/interactivity', slackInteractions.requestListener());
 
 app.use(express.json());
 
+app.post(
+  '/event-listener',
+  (
+    { body: { challenge, payload } }: express.Request,
+    res: express.Response
+  ) => {
+    console.log('event listener', payload);
+
+    res.status(200).send({
+      challenge,
+    });
+  }
+);
+
 app.listen(port, () =>
   console.log(`Slack app example service listening at @${port}`)
 );
