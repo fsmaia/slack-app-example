@@ -39,6 +39,20 @@ In this example it will be mentions to the application bot.
 
 Reference: https://api.slack.com/events
 
+### Slash commands
+
+This server holds a command listener in `/commands`, which allows the application to listen to slash commands (e.g. `/start`).
+
+In this example the following commands will be handled:
+
+| Command               | Description             | Server endpoint            |
+| --------------------- | ----------------------- | -------------------------- |
+| `/start_discussion`   | Starts a discussion     | /commands/start_discussion |
+| `/announce <message>` | Creates an announcement | /commands/announce         |
+| `/poll <question>`    | Starts a poll           | /commands/poll             |
+
+Reference: https://api.slack.com/interactivity/slash-commands
+
 ### Interactivity
 
 This server holds an interactive endpoint in `/interactivity`, which allows the application to have interactions with shortcuts, modals, or interactive components.

@@ -111,6 +111,15 @@ app.post(
   }
 );
 
+app.post(
+  '/commands',
+  ({ body: { command } }: express.Request, res: express.Response) => {
+    console.log('command', command);
+
+    res.status(200).send('Thanks!');
+  }
+);
+
 app.listen(port, () =>
   console.log(`Slack app example service listening at @${port}`)
 );
